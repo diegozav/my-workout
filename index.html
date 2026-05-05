@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Mi Rutina" />
+  <meta name="theme-color" content="#0D1117" />
+  <title>Rutina Gym — Fuerza & Definición</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root {
+      --primary: #FF6B35;
+      --primary-dim: rgba(255,107,53,0.12);
+      --primary-border: rgba(255,107,53,0.3);
+      --accent: #58A6FF;
+      --success: #3FB950;
+      --warning: #E3B341;
+      --dark: #0D1117;
+      --darker: #010409;
+      --card: #161B22;
+      --card2: #1C2128;
+      --border: #30363D;
+      --text: #E6EDF3;
+      --muted: #7D8590;
+      --display: 'Barlow Condensed', sans-serif;
+      --body: 'Barlow', sans-serif;
+    }
+    html, body, #root { min-height: 100%; background: var(--darker); color: var(--text); font-family: var(--body); }
+    body { padding-bottom: 48px; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(155deg, #1a0800 0%, #0D1117 55%, #00091a 100%);
+      padding: 32px 16px 24px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -80px; right: -60px;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(255,107,53,0.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-label {
+      font-family: var(--display); font-size: 11px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--primary); margin-bottom: 8px;
+    }
+    .hero h1 {
+      font-family: var(--display); font-size: 40px; font-weight: 800;
+      line-height: 1; text-transform: uppercase; margin-bottom: 6px;
+    }
+    .hero h1 span { color: var(--primary); }
+    .hero-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 600; color: var(--accent);
+    }
+
+    /* WEEK STRIP */
+    .week-strip {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
+      padding: 12px 12px; background: var(--card); border-bottom: 1px solid var(--border);
+    }
+    .wd { text-align: center; padding: 8px 2px; border-radius: 8px; border: 1px solid transparent; }
+    .wd-name { font-family: var(--display); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .wd-icon { font-size: 17px; }
+    .wd-label { font-size: 9px; color: var(--muted); margin-top: 3px; }
+    .wd.gym { border-color: var(--primary-border); background: var(--primary-dim); }
+    .wd.gym .wd-name { color: var(--primary); }
+    .wd.opt { border-color: rgba(227,179,65,0.3); background: rgba(227,179,65,0.07); }
+    .wd.opt .wd-name { color: var(--warning); }
+
+    /* FOOTBALL NOTE */
+    .fn {
+      margin: 12px 16px 4px;
+      background: rgba(88,166,255,0.06); border: 1px solid rgba(88,166,255,0.2);
+      border-radius: 10px; padding: 12px 14px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .fn p { font-size: 12px; color: var(--muted); line-height: 1.55; }
+    .fn strong { color: var(--accent); }
+
+    /* STATS */
+    .stats { display: flex; gap: 8px; padding: 12px 16px; }
+    .stat {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px; text-align: center;
+    }
+    .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 4px; }
+    .stat-val { font-family: var(--display); font-size: 19px; font-weight: 700; color: var(--primary); }
+
+    /* DAY CARDS */
+    .days { padding: 0 16px; }
+    .day-card { margin-bottom: 10px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+    .day-card.optional { border-color: rgba(227,179,65,0.3); }
+
+    .day-trigger {
+      width: 100%; display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; background: var(--card);
+      border: none; border-left: 4px solid var(--primary);
+      cursor: pointer; text-align: left; transition: background 0.2s;
+    }
+    .day-card.optional .day-trigger { border-left-color: var(--warning); }
+    .day-trigger:active { background: var(--card2); }
+    .day-trigger.done-day { border-left-color: var(--success); background: rgba(63,185,80,0.06); }
+
+    .day-emoji { font-size: 22px; flex-shrink: 0; }
+    .day-info { flex: 1; min-width: 0; }
+    .day-name {
+      font-family: var(--display); font-size: 17px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; color: var(--text); margin-bottom: 1px;
+    }
+    .day-sub { font-size: 11px; color: var(--muted); }
+    .day-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .time-pill { background: var(--primary-dim); color: var(--primary); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600; }
+    .opt-pill { background: rgba(227,179,65,0.14); color: var(--warning); border-radius: 6px; padding: 3px 8px; font-size: 10px; font-weight: 600; }
+    .prog-ring {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; color: var(--muted); transition: all 0.3s;
+    }
+    .prog-ring.full { border-color: var(--success); background: var(--success); color: white; font-size: 15px; }
+    .chevron { color: var(--muted); font-size: 12px; transition: transform 0.25s; }
+    .chevron.open { transform: rotate(180deg); }
+
+    /* EXERCISE LIST */
+    .ex-list { background: #0b1017; border-top: 1px solid var(--border); }
+    .ex-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 13px 16px; border-bottom: 1px solid rgba(48,54,61,0.5);
+      cursor: pointer; transition: background 0.15s; user-select: none;
+    }
+    .ex-item:last-child { border-bottom: none; }
+    .ex-item:active { background: rgba(255,255,255,0.03); }
+    .ex-check {
+      width: 20px; height: 20px; border: 2px solid var(--border);
+      border-radius: 5px; flex-shrink: 0; margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; transition: all 0.2s; background: var(--card);
+    }
+    .ex-item.done .ex-check { background: var(--accent); border-color: var(--accent); color: white; }
+    .ex-content { flex: 1; }
+    .ex-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; transition: color 0.2s; }
+    .ex-item.done .ex-name { color: var(--muted); text-decoration: line-through; }
+    .ex-detail { font-size: 11px; color: var(--muted); }
+    .compound-tag {
+      display: inline-block; background: rgba(63,185,80,0.15); color: var(--success);
+      font-size: 9px; padding: 1px 5px; border-radius: 3px; margin-left: 5px;
+      font-weight: 700; vertical-align: middle; letter-spacing: 0.5px;
+    }
+
+    /* NUTRITION */
+    .nutrition {
+      margin: 16px 16px 0;
+      background: rgba(255,107,53,0.07); border-left: 3px solid var(--primary);
+      border-radius: 8px; padding: 14px;
+    }
+    .nutrition h3 { font-family: var(--display); font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 10px; letter-spacing: 0.5px; }
+    .nutrition p { font-size: 12px; color: var(--muted); margin-bottom: 6px; line-height: 1.5; }
+    .nutrition p:last-child { margin-bottom: 0; }
+    .nutrition strong { color: var(--text); }
+
+    /* NOTES */
+    .notes {
+      margin: 12px 16px 0;
+      background: rgba(0,60,120,0.1); border: 1px solid rgba(88,166,255,0.15);
+      border-radius: 10px; padding: 14px;
+    }
+    .notes h3 { font-family: var(--display); font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 10px; letter-spacing: 0.5px; }
+    .notes p { font-size: 12px; color: var(--muted); margin-bottom: 5px; line-height: 1.55; }
+    .notes p:last-child { margin-bottom: 0; }
+
+    /* RESET */
+    .reset-btn {
+      display: block; width: calc(100% - 32px); margin: 16px 16px 0;
+      padding: 13px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--muted); font-size: 13px; font-family: var(--body);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .reset-btn:active { background: var(--card2); color: var(--text); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback } = React;
+
+    const DAYS = [
+      {
+        id: 'lunes',
+        emoji: '🔥',
+        name: 'Lunes — Pecho & Tríceps',
+        sub: 'Empuje superior · Compuestos pesados',
+        optional: false,
+        exercises: [
+          { name: 'Press de Banca', detail: '5 × 5 reps · Descanso: 3 min · Peso pesado', compound: true },
+          { name: 'Fondos en Paralelas', detail: '4 × 6-8 reps · Descanso: 2.5 min · Añade peso si es fácil', compound: true },
+          { name: 'Extensiones de Tríceps en Polea', detail: '3 × 10-12 reps · Descanso: 90s', compound: false },
+          { name: 'Aperturas en Máquina', detail: '3 × 12-15 reps · Descanso: 60s', compound: false },
+          { name: 'Curls de Tríceps con Cuerda', detail: '3 × 12-15 reps · Descanso: 60s', compound: false },
+        ],
+      },
+      {
+        id: 'martes',
+        emoji: '🦵',
+        name: 'Martes — Piernas & Glúteos',
+        sub: 'Empuje inferior · Strength focus',
+        optional: false,
+        exercises: [
+          { name: 'Sentadilla con Barra', detail: '5 × 5 reps · Descanso: 3 min · Peso máximo seguro', compound: true },
+          { name: 'Hip Thrust con Barra', detail: '4 × 6-8 reps · Descanso: 2.5 min', compound: true },
+          { name: 'Prensa de Piernas', detail: '3 × 10-12 reps · Descanso: 90s', compound: false },
+          { name: 'Curl Femoral Acostado', detail: '3 × 10-12 reps · Descanso: 90s', compound: false },
+          { name: 'Extensiones de Cuádriceps', detail: '3 × 12-15 reps · Descanso: 60s', compound: false },
+        ],
+      },
+      {
+        id: 'jueves',
+        emoji: '💥',
+        name: 'Jueves — Espalda & Bíceps',
+        sub: 'Tracción · Strength focus',
+        optional: false,
+        exercises: [
+          { name: 'Remo Inclinado con Barra', detail: '5 × 5 reps · Descanso: 3 min · Peso pesado', compound: true },
+          { name: 'Dominadas o Lat Pulldown', detail: '4 × 6-8 reps · Descanso: 2.5 min', compound: true },
+          { name: 'Curl con Barra Z', detail: '3 × 10-12 reps · Descanso: 90s', compound: false },
+          { name: 'Remo Sentado en Máquina', detail: '3 × 12-15 reps · Descanso: 90s', compound: false },
+          { name: 'Curl Martillo en Polea', detail: '3 × 12-15 reps · Descanso: 60s', compound: false },
+        ],
+      },
+      {
+        id: 'viernes',
+        emoji: '⚡',
+        name: 'Viernes — Hombros & Core',
+        sub: 'Aislamiento · Estabilidad',
+        optional: true,
+        exercises: [
+          { name: 'Press de Hombro Sentado', detail: '5 × 5 reps · Descanso: 3 min', compound: true },
+          { name: 'Elevaciones Laterales', detail: '4 × 12-15 reps · Descanso: 60s', compound: false },
+          { name: 'Pájaros en Máquina (Trasero)', detail: '3 × 12-15 reps · Descanso: 60s', compound: false },
+          { name: 'Crunch en Máquina', detail: '3 × 15-20 reps · Descanso: 60s', compound: false },
+          { name: 'Plancha + Levantamientos de Pierna', detail: '3 × 45s + 12 reps · Descanso: 90s', compound: false },
+        ],
+      },
+    ];
+
+    const WEEK = [
+      { name: 'Lun', icon: '🔥', label: 'Pecho', cls: 'gym' },
+      { name: 'Mar', icon: '🦵', label: 'Piernas', cls: 'gym' },
+      { name: 'Mié', icon: '😴', label: 'Descanso', cls: '' },
+      { name: 'Jue', icon: '💥', label: 'Espalda', cls: 'gym' },
+      { name: 'Vie', icon: '⚡', label: 'Hombros', cls: 'opt' },
+      { name: 'Sáb', icon: '⚽', label: 'Fútbol', cls: '' },
+      { name: 'Dom', icon: '😴', label: 'Descanso', cls: '' },
+    ];
+
+    const STORAGE_KEY = 'rutina-gym-v1';
+
+    function loadState() {
+      try {
+        const s = localStorage.getItem(STORAGE_KEY);
+        return s ? JSON.parse(s) : {};
+      } catch { return {}; }
+    }
+
+    function saveState(state) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+    }
+
+    function ExerciseItem({ dayId, exIdx, name, detail, compound, checked, onToggle }) {
+      return (
+        <div className={`ex-item${checked ? ' done' : ''}`} onClick={() => onToggle(dayId, exIdx)}>
+          <div className="ex-check">{checked ? '✓' : ''}</div>
+          <div className="ex-content">
+            <div className="ex-name">
+              {name}
+              {compound && <span className="compound-tag">COMPUESTO</span>}
+            </div>
+            <div className="ex-detail">{detail}</div>
+          </div>
+        </div>
+      );
+    }
+
+    function DayCard({ day, checked, open, onToggleOpen, onToggleEx }) {
+      const total = day.exercises.length;
+      const done = day.exercises.filter((_, i) => checked[`${day.id}-${i}`]).length;
+      const allDone = done === total;
+
+      return (
+        <div className={`day-card${day.optional ? ' optional' : ''}`}>
+          <button
+            className={`day-trigger${allDone ? ' done-day' : ''}`}
+            onClick={onToggleOpen}
+          >
+            <span className="day-emoji">{day.emoji}</span>
+            <div className="day-info">
+              <div className="day-name">{day.name}</div>
+              <div className="day-sub">{day.sub}</div>
+            </div>
+            <div className="day-right">
+              {day.optional && <span className="opt-pill">OPCIONAL</span>}
+              <span className="time-pill">45 min</span>
+              <div className={`prog-ring${allDone ? ' full' : ''}`}>
+                {allDone ? '✓' : `${done}/${total}`}
+              </div>
+              <span className={`chevron${open ? ' open' : ''}`}>▼</span>
+            </div>
+          </button>
+
+          {open && (
+            <div className="ex-list">
+              {day.exercises.map((ex, i) => (
+                <ExerciseItem
+                  key={i}
+                  dayId={day.id}
+                  exIdx={i}
+                  name={ex.name}
+                  detail={ex.detail}
+                  compound={ex.compound}
+                  checked={!!checked[`${day.id}-${i}`]}
+                  onToggle={onToggleEx}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function App() {
+      const [checked, setChecked] = useState(loadState);
+      const [openDays, setOpenDays] = useState({});
+
+      useEffect(() => { saveState(checked); }, [checked]);
+
+      const toggleEx = useCallback((dayId, exIdx) => {
+        const key = `${dayId}-${exIdx}`;
+        setChecked(prev => ({ ...prev, [key]: !prev[key] }));
+      }, []);
+
+      const toggleDay = useCallback((dayId) => {
+        setOpenDays(prev => ({ ...prev, [dayId]: !prev[dayId] }));
+      }, []);
+
+      const reset = () => {
+        if (window.confirm('¿Restablecer todo el progreso semanal?')) {
+          setChecked({});
+          saveState({});
+        }
+      };
+
+      return (
+        <>
+          {/* HERO */}
+          <div className="hero">
+            <div className="hero-label">💪 Tu rutina personalizada</div>
+            <h1>Fuerza &<br /><span>Definición</span></h1>
+            <div className="hero-sub">34 años · 80 kg · 174 cm · Nivel intermedio</div>
+            <div className="chips">
+              <span className="chip">3-4 días/semana</span>
+              <span className="chip">45 min/sesión</span>
+              <span className="chip">Recomposición</span>
+            </div>
+          </div>
+
+          {/* WEEK STRIP */}
+          <div className="week-strip">
+            {WEEK.map((w, i) => (
+              <div key={i} className={`wd${w.cls ? ' ' + w.cls : ''}`}>
+                <div className="wd-name">{w.name}</div>
+                <div className="wd-icon">{w.icon}</div>
+                <div className="wd-label">{w.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* FOOTBALL NOTE */}
+          <div className="fn">
+            <span style={{fontSize: 20, flexShrink: 0}}>⚽</span>
+            <p><strong>Nota fútbol:</strong> Si juegas el lunes, ese ya es tu entreno del día — empieza la semana en martes. El fútbol ya te da el cardio necesario para perder grasa.</p>
+          </div>
+
+          {/* STATS */}
+          <div className="stats">
+            <div className="stat">
+              <div className="stat-label">IMC</div>
+              <div className="stat-val">26.4</div>
+            </div>
+            <div className="stat">
+              <div className="stat-label">Calorías</div>
+              <div className="stat-val">1,900</div>
+            </div>
+            <div className="stat">
+              <div className="stat-label">Proteína</div>
+              <div className="stat-val">160g</div>
+            </div>
+          </div>
+
+          {/* DAY CARDS */}
+          <div className="days">
+            {DAYS.map(day => (
+              <DayCard
+                key={day.id}
+                day={day}
+                checked={checked}
+                open={!!openDays[day.id]}
+                onToggleOpen={() => toggleDay(day.id)}
+                onToggleEx={toggleEx}
+              />
+            ))}
+          </div>
+
+          {/* NUTRITION */}
+          <div className="nutrition">
+            <h3>🥗 NUTRICIÓN PARA RECOMPOSICIÓN</h3>
+            <p><strong>Calorías:</strong> ~1,900 kcal/día (déficit leve de 400 kcal)</p>
+            <p><strong>Macros:</strong> 160g proteína · 190g carbohidratos · 55g grasas</p>
+            <p><strong>Proteína:</strong> Distribuye en 4-5 comidas de ~40g cada una</p>
+            <p><strong>Carbohidratos:</strong> Prioriza antes y después del entreno</p>
+            <p><strong>Días de fútbol:</strong> Come un poco más (~2,100 kcal)</p>
+            <p><strong>Agua:</strong> 3-4 litros diarios</p>
+          </div>
+
+          {/* NOTES */}
+          <div className="notes">
+            <h3>📋 CLAVES DE ESTA RUTINA</h3>
+            <p>• Martes: piernas solas para recuperar bien antes del jueves</p>
+            <p>• Miércoles: descanso activo (caminar, estirar) tras piernas</p>
+            <p>• Jueves-Viernes: días seguidos está bien, grupos distintos</p>
+            <p>• Viernes opcional: si vas, perfecto; si no, sin culpa</p>
+            <p>• Progresa subiendo peso semana a semana en los compuestos</p>
+          </div>
+
+          <button className="reset-btn" onClick={reset}>🔄 Restablecer progreso semanal</button>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
