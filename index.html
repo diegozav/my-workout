@@ -224,58 +224,68 @@
 
     const DAYS = [
       {
-        id: 'lunes', emoji: '🔥', name: 'Lunes — Pecho & Tríceps', sub: 'Empuje superior · Compuestos pesados', optional: false,
+        id: 'lunes', emoji: '🦵', name: 'Lunes — Abdomen & Piernas', sub: 'Tren inferior · Core · 30 min', optional: false,
         exercises: [
-          { name: 'Press de Banca', detail: '5 × 5 reps · Descanso: 3 min · Peso pesado', compound: true, rest: 180 },
-          { name: 'Fondos en Paralelas', detail: '4 × 6-8 reps · Descanso: 2.5 min', compound: true, rest: 150 },
-          { name: 'Extensiones de Tríceps en Polea', detail: '3 × 10-12 reps · Descanso: 90s', compound: false, rest: 90 },
-          { name: 'Aperturas en Máquina', detail: '3 × 12-15 reps · Descanso: 60s', compound: false, rest: 60 },
-          { name: 'Curls de Tríceps con Cuerda', detail: '3 × 12-15 reps · Descanso: 60s', compound: false, rest: 60 },
-        ],
-      },
-      {
-        id: 'martes', emoji: '🦵', name: 'Martes — Piernas & Glúteos', sub: 'Empuje inferior · Strength focus', optional: false,
-        exercises: [
-          { name: 'Sentadilla con Barra', detail: '5 × 5 reps · Descanso: 3 min', compound: true, rest: 180 },
-          { name: 'Hip Thrust con Barra', detail: '4 × 6-8 reps · Descanso: 2.5 min', compound: true, rest: 150 },
+          { name: 'Sentadilla con Barra', detail: '3 × 8 reps · Descanso: 90s · Peso moderado', compound: true, rest: 90 },
           { name: 'Prensa de Piernas', detail: '3 × 10-12 reps · Descanso: 90s', compound: false, rest: 90 },
-          { name: 'Curl Femoral Acostado', detail: '3 × 10-12 reps · Descanso: 90s', compound: false, rest: 90 },
-          { name: 'Extensiones de Cuádriceps', detail: '3 × 12-15 reps · Descanso: 60s', compound: false, rest: 60 },
+          { name: 'Curl Femoral en Máquina', detail: '3 × 12 reps · Descanso: 60s', compound: false, rest: 60 },
+          { name: 'Crunch en Suelo', detail: '3 × 20 reps · Descanso: 45s', compound: false, rest: 45 },
+          { name: 'Elevaciones de Piernas en Suelo', detail: '3 × 15 reps · Descanso: 45s', compound: false, rest: 45 },
         ],
       },
       {
-        id: 'jueves', emoji: '💥', name: 'Jueves — Espalda & Bíceps', sub: 'Tracción · Strength focus', optional: false,
+        id: 'martes', emoji: '💪', name: 'Martes — Brazos', sub: 'Bíceps + Tríceps · Supersets · 30 min', optional: false,
         exercises: [
-          { name: 'Remo Inclinado con Barra', detail: '5 × 5 reps · Descanso: 3 min', compound: true, rest: 180 },
-          { name: 'Dominadas o Lat Pulldown', detail: '4 × 6-8 reps · Descanso: 2.5 min', compound: true, rest: 150 },
-          { name: 'Curl con Barra Z', detail: '3 × 10-12 reps · Descanso: 90s', compound: false, rest: 90 },
-          { name: 'Remo Sentado en Máquina', detail: '3 × 12-15 reps · Descanso: 90s', compound: false, rest: 90 },
-          { name: 'Curl Martillo en Polea', detail: '3 × 12-15 reps · Descanso: 60s', compound: false, rest: 60 },
+          { name: 'Press Cerrado · Superset A', detail: '4 × 8 reps · Sin descanso → ir directo a Curl con Barra', compound: true, rest: 10 },
+          { name: 'Curl con Barra · Superset A', detail: '4 × 8 reps · Descanso: 60s al terminar el par', compound: false, rest: 60 },
+          { name: 'Press Francés · Superset B', detail: '3 × 10 reps · Sin descanso → ir directo a Curl Predicador', compound: false, rest: 10 },
+          { name: 'Curl Predicador · Superset B', detail: '3 × 10 reps · Descanso: 60s al terminar el par', compound: false, rest: 60 },
+          { name: 'Extensiones en Polea · Superset C', detail: '3 × 12 reps · Sin descanso → ir directo a Curl Martillo', compound: false, rest: 10 },
+          { name: 'Curl Martillo · Superset C', detail: '3 × 12 reps · Descanso: 45s al terminar el par', compound: false, rest: 45 },
         ],
       },
       {
-        id: 'viernes', emoji: '⚡', name: 'Viernes — Hombros & Core', sub: 'Aislamiento · Estabilidad', optional: true,
+        id: 'miercoles', emoji: '🔥', name: 'Miércoles — Core Completo', sub: 'Abdomen · Oblicuos · 30 min', optional: true,
         exercises: [
-          { name: 'Press de Hombro Sentado', detail: '5 × 5 reps · Descanso: 3 min', compound: true, rest: 180 },
-          { name: 'Elevaciones Laterales', detail: '4 × 12-15 reps · Descanso: 60s', compound: false, rest: 60 },
-          { name: 'Pájaros en Máquina (Trasero)', detail: '3 × 12-15 reps · Descanso: 60s', compound: false, rest: 60 },
-          { name: 'Crunch en Máquina', detail: '3 × 15-20 reps · Descanso: 60s', compound: false, rest: 60 },
-          { name: 'Plancha + Levantamientos de Pierna', detail: '3 × 45s + 12 reps · Descanso: 90s', compound: false, rest: 90 },
+          { name: 'Crunch en Suelo', detail: '3 × 20 reps · Descanso: 45s', compound: false, rest: 45 },
+          { name: 'Crunch Bicicleta', detail: '3 × 20 reps (cada lado) · Descanso: 45s', compound: false, rest: 45 },
+          { name: 'Elevaciones de Piernas en Suelo', detail: '3 × 15 reps · Descanso: 45s', compound: false, rest: 45 },
+          { name: 'Russian Twist', detail: '3 × 20 reps · Descanso: 45s', compound: false, rest: 45 },
+          { name: 'Plancha Lateral', detail: '3 × 30s cada lado · Descanso: 45s', compound: false, rest: 45 },
+          { name: 'Dead Bug', detail: '3 × 10 reps · Descanso: 45s', compound: false, rest: 45 },
+        ],
+      },
+      {
+        id: 'jueves', emoji: '💥', name: 'Jueves — Espalda', sub: 'Tracción · Fuerza · 30 min', optional: false,
+        exercises: [
+          { name: 'Remo Inclinado con Barra', detail: '3 × 8 reps · Descanso: 90s · Peso pesado', compound: true, rest: 90 },
+          { name: 'Dominadas o Lat Pulldown', detail: '3 × 8-10 reps · Descanso: 90s', compound: true, rest: 90 },
+          { name: 'Remo en Máquina', detail: '3 × 12 reps · Descanso: 60s', compound: false, rest: 60 },
+        ],
+      },
+      {
+        id: 'viernes', emoji: '⚡', name: 'Viernes — Hombros & Antebrazos', sub: 'Deltoides · Antebrazos · 30 min', optional: false,
+        exercises: [
+          { name: 'Press Militar con Barra', detail: '3 × 8 reps · Descanso: 90s · Peso moderado', compound: true, rest: 90 },
+          { name: 'Elevaciones Laterales', detail: '3 × 12-15 reps · Descanso: 60s', compound: false, rest: 60 },
+          { name: 'Pájaros en Máquina (Trasero)', detail: '3 × 12 reps · Descanso: 60s', compound: false, rest: 60 },
+          { name: 'Curl Inverso con Barra', detail: '3 × 12 reps · Descanso: 45s', compound: false, rest: 45 },
+          { name: 'Curl de Muñeca con Barra', detail: '3 × 15 reps · Descanso: 45s', compound: false, rest: 45 },
         ],
       },
     ];
 
     const WEEK = [
-      { name: 'Lun', icon: '🔥', label: 'Pecho', cls: 'gym' },
-      { name: 'Mar', icon: '🦵', label: 'Piernas', cls: 'gym' },
-      { name: 'Mié', icon: '😴', label: 'Descanso', cls: '' },
+      { name: 'Lun', icon: '🦵', label: 'Piernas', cls: 'gym' },
+      { name: 'Mar', icon: '💪', label: 'Brazos', cls: 'gym' },
+      { name: 'Mié', icon: '🔥', label: 'Core', cls: 'opt' },
       { name: 'Jue', icon: '💥', label: 'Espalda', cls: 'gym' },
-      { name: 'Vie', icon: '⚡', label: 'Hombros', cls: 'opt' },
+      { name: 'Vie', icon: '⚡', label: 'Hombros', cls: 'gym' },
       { name: 'Sáb', icon: '⚽', label: 'Fútbol', cls: '' },
       { name: 'Dom', icon: '😴', label: 'Descanso', cls: '' },
     ];
 
-    const STORAGE_KEY = 'lift-cut-v1';
+    const STORAGE_KEY = 'lift-cut-v2';
     const HISTORY_KEY = 'lift-cut-history-v1';
 
     function loadChecked() { try { const s = localStorage.getItem(STORAGE_KEY); return s ? JSON.parse(s) : {}; } catch { return {}; } }
@@ -399,7 +409,7 @@
             </div>
             <div className="day-right">
               {day.optional && <span className="opt-pill">OPCIONAL</span>}
-              <span className="time-pill">45 min</span>
+              <span className="time-pill">30 min</span>
               <div className={`prog-ring${allDone ? ' full' : ''}`}>{allDone ? '✓' : `${done}/${total}`}</div>
               <span className={`chevron${open ? ' open' : ''}`}>▼</span>
             </div>
@@ -592,12 +602,12 @@
               {/* HERO */}
               <div className="hero">
                 <div className="hero-label">💪 Tu rutina personalizada</div>
-                <h1>Fuerza &<br /><span>Definición</span></h1>
+                <h1>Volumen &<br /><span>Brazos</span></h1>
                 <div className="hero-sub">34 años · 80 kg · 174 cm · Nivel intermedio</div>
                 <div className="chips">
-                  <span className="chip">3-4 días/semana</span>
-                  <span className="chip">45 min/sesión</span>
-                  <span className="chip">Recomposición</span>
+                  <span className="chip">4 días/semana</span>
+                  <span className="chip">30 min/sesión</span>
+                  <span className="chip">Enfoque: Brazos</span>
                 </div>
               </div>
 
@@ -626,7 +636,7 @@
               {/* FOOTBALL NOTE */}
               <div className="fn">
                 <span style={{fontSize:20, flexShrink:0}}>⚽</span>
-                <p><strong>Nota fútbol:</strong> Si juegas el lunes, ese ya es tu entreno del día. El fútbol ya te da el cardio necesario.</p>
+                <p><strong>Nota fútbol:</strong> Sábado de fútbol ya cubre cardio y pierna extra. Si juegas entre semana, descansa o reduce intensidad ese día.</p>
               </div>
 
               {/* STATS */}
@@ -661,23 +671,23 @@
 
               {/* NUTRITION */}
               <div className="nutrition">
-                <h3>🥗 NUTRICIÓN PARA RECOMPOSICIÓN</h3>
-                <p><strong>Calorías:</strong> ~1,900 kcal/día (déficit leve de 400 kcal)</p>
-                <p><strong>Macros:</strong> 160g proteína · 190g carbohidratos · 55g grasas</p>
+                <h3>🥗 NUTRICIÓN PARA VOLUMEN DE BRAZOS</h3>
+                <p><strong>Calorías:</strong> ~2,200 kcal/día (superávit leve para ganar músculo)</p>
+                <p><strong>Macros:</strong> 160g proteína · 240g carbohidratos · 65g grasas</p>
                 <p><strong>Proteína:</strong> Distribuye en 4-5 comidas de ~40g cada una</p>
                 <p><strong>Carbohidratos:</strong> Prioriza antes y después del entreno</p>
-                <p><strong>Días de fútbol:</strong> Come un poco más (~2,100 kcal)</p>
+                <p><strong>Días de fútbol:</strong> Come un poco más (~2,400 kcal)</p>
                 <p><strong>Agua:</strong> 3-4 litros diarios</p>
               </div>
 
               {/* NOTES */}
               <div className="notes">
                 <h3>📋 CLAVES DE ESTA RUTINA</h3>
-                <p>• Martes: piernas solas para recuperar bien antes del jueves</p>
-                <p>• Miércoles: descanso activo (caminar, estirar) tras piernas</p>
-                <p>• Jueves-Viernes: días seguidos está bien, grupos distintos</p>
-                <p>• Viernes opcional: si vas, perfecto; si no, sin culpa</p>
-                <p>• Progresa subiendo peso semana a semana en los compuestos</p>
+                <p>• Martes: brazos frescos = más peso, más reps, más músculo real</p>
+                <p>• Supersets: tríceps trabaja, bíceps descansa y viceversa — no pierdas tiempo</p>
+                <p>• Miércoles opcional: si vas, suma core; si no, sin culpa</p>
+                <p>• Jueves-Viernes: grupos distintos, está bien ir seguidos</p>
+                <p>• Progresa subiendo peso cada semana en sentadilla, remo y press militar</p>
               </div>
 
               <button className="reset-btn" onClick={resetWeek}>🔄 Restablecer progreso semanal</button>
